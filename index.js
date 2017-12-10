@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var day1 = require('./day1.js')
-var day1 = require('./day2.js')
+var day2 = require('./day2.js')
 
 //configure app to user body parser()
 //allows us to get data from a POST()
@@ -41,12 +41,18 @@ router.route('/day1')
 
 router.route('/day2')
   .post(function(req,res){
-    console.log(req.body);
+    // console.log(req.body);
     var nums = req.body.input;
-    //console.log(nums.split(''));
-    //res.json(day2.captcha2(nums.split('')));
-    //res.json({nums.slice('')});
-    res.status(200).send("got it");
+    var toAdd = [];
+    nums.forEach(function(row){
+      //console.log(row);
+      toAdd.push(day2.divisible(row));
+    });
+    var sumAnswer = 0;
+    toAdd.forEach(function(item){
+      sumAnswer += parseInt(item);
+    });
+    res.status(200).send(sumAnswer.toString());
   });
 
 //REGISTER OUR ROUTES---------------------------------------------------------

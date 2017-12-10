@@ -2,31 +2,41 @@ var math = require('mathjs');
 
 var day2 = {
 
-  captcha: function(numbers){
-    var toAdd = [];
-    for(let i=0; i < numbers.length-1; i++){
-      if (numbers[i] == numbers[i+1]){
-        toAdd.push(numbers[i]);
+  sumRows: function(numbers){
+    var smallNum = numbers[0];
+    var largeNum = numbers[0];
+
+    numbers.forEach(function(num){
+      if (num < smallNum){
+        smallNum = num;
       }
-    }
-    if (numbers[0] == numbers[numbers.length-1]){
-      toAdd.push(numbers[numbers.length-1]);
-    }
-    var sumAnswer = 0;
-    toAdd.forEach(function(item){
-      sumAnswer += parseInt(item);
+
+      if (num > largeNum){
+        largeNum = num;
+      }
     });
-    return sumAnswer;
+    // console.log("smallNum:  " + smallNum);
+    // console.log("largeNum: " + largeNum);
+    return math.subtract(parseInt(largeNum),  parseInt(smallNum));
   },
 
-  captcha2: function(numbers){
+  divisible: function(numbers){
     var toAdd = [];
-    var offset = numbers.length / 2;
+    var offset = numbers.length -1;
     var length = numbers.length;
 
-    for(let i=0; i < numbers.length; i++){
-      if (numbers[i] == numbers[determineIndex(i, offset, length)]){
-        toAdd.push(numbers[i]);
+    for(let i=0; i < length; i++){
+      for(x = offset; x >=0; x--){
+        if (i != x){
+          if(numbers[i]%numbers[x] == 0){
+            console.log(numbers[i] + " index " + i + " " + numbers[x]+ " index " + x);
+            toAdd.push(math.divide(numbers[i], numbers[x]));
+          }
+        // if(numbers[offset]%numbers[i] == 0){
+        //   console.log(numbers[offset] + " offsetindex " + offset + " " + numbers[i]+ " i index " + i);
+        //   toAdd.push(math.divide(numbers[offset], numbers[i]));
+        // }
+        }
       }
     }
 
