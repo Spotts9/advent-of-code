@@ -1,0 +1,16 @@
+{
+  "name": "advent",
+  "version": "1.0.0",
+  "description": "Advent of Code solutions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Spotts",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mathjs": "^3.17.0"
+  }
+}
