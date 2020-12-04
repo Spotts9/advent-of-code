@@ -2,22 +2,33 @@ var math = require('mathjs');
 
 var day2 = {
 
-  sumRows: function(numbers){
-    var smallNum = numbers[0];
-    var largeNum = numbers[0];
-
-    numbers.forEach(function(num){
-      if (num < smallNum){
-        smallNum = num;
+  isValidPassword: function(target, min, max, password){
+    let isValid = false;
+    const charMap = {};
+    for (let char of password){
+        if (char == target){
+         if (!charMap[char]) {
+           charMap[char] = 1;
+          } else { 
+           charMap[char]++;
+          }
+        }
       }
+    if (charMap[target] >= min && charMap[target] <= max) isValid = true;
+    return isValid;
+  },
 
-      if (num > largeNum){
-        largeNum = num;
-      }
-    });
-    // console.log("smallNum:  " + smallNum);
-    // console.log("largeNum: " + largeNum);
-    return math.subtract(parseInt(largeNum),  parseInt(smallNum));
+  isValidUpdated: function(target, pos1, pos2, password){
+    let isValid = false;
+
+    if (target == password.charAt(pos1-1)) isValid = true;
+
+    if (isValid) {
+      if(target == password.charAt(pos2 -1)) return false;
+      return true;
+    }
+
+    return target == password.charAt(pos2-1);
   },
 
   divisible: function(numbers){

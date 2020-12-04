@@ -3,6 +3,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var lineReader = require('line-reader');
+
 var day1 = require('./day1.js')
 var day2 = require('./day2.js')
 
@@ -12,6 +14,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
+
+var validPasswordCnt = 0;
 
 //ROUTES FOR datePieces
 //=============================================================================
@@ -42,17 +46,46 @@ router.route('/day1')
 router.route('/day2')
   .post(function(req,res){
     // console.log(req.body);
-    var nums = req.body.input;
+    var input = req.body.input;
     var toAdd = [];
-    nums.forEach(function(row){
-      //console.log(row);
-      toAdd.push(day2.divisible(row));
+    var validCnt = 0;
+    
+    lineReader.eachLine('input/day2.txt', function(line){
+      line = line.replace(':', '');
+      var pieces= [];
+      pieces = line.split(" ");
+      // console.log(pieces[0]);
+      let minMax = pieces[0].split("-");
+      let min = minMax[0];
+      let max = minMax[1];
+      let target = pieces[1];
+      let pswrd = pieces[2];
+      // console.log("Current Valid: " + validCnt.toString());
+      // console.log("min: " + min + "  max: " + max + "  Target: "+ target+ "  input: " + pswrd);
+      if (day2.isValidUpdated(target, min, max, pswrd)){
+        console.log("isValid");
+        validCnt ++;
+        console.log(validCnt);
+      }
     });
-    var sumAnswer = 0;
-    toAdd.forEach(function(item){
-      sumAnswer += parseInt(item);
-    });
-    res.status(200).send(sumAnswer.toString());
+
+    // input.forEach(function(row){
+    //   row = row.replace(':', '');
+    //   var pieces= [];
+    //   pieces = row.split(" ");
+    //   console.log(pieces[0]);
+    //   let minMax = pieces[0].split("-");
+    //   let min = minMax[0];
+    //   let max = minMax[1];
+    //   let target = pieces[1];
+    //   let pswrd = pieces[2];
+
+    //   if (day2.isValidPassword(target, min, max, pswrd)){
+    //     validCnt ++;
+    //   }
+    // });
+    console.log("already returning");
+    res.status(200).send(validCnt.toString());
   });
 
 //REGISTER OUR ROUTES---------------------------------------------------------
